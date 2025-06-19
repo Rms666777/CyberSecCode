@@ -57,9 +57,9 @@ export class VirtualFileSystem {
                     children: {
                       'hello.py': { type: 'file', content: 'print("Hello from Python!")' },
                       'hello.js': { type: 'file', content: 'console.log("Hello from Node.js!");' },
-                      'hello.sh': { type: 'file', content: '#!/bin/bash\necho "Hello from BASH!"' },
-                      'scan.sh': { type: 'file', content: '#!/bin/bash\n# Network scanning script\nnmap -sn 192.168.1.0/24' },
-                      'backup.sh': { type: 'file', content: '#!/bin/bash\n# Backup script\ntar -czf backup_$(date +%Y%m%d).tar.gz /home/user/Documents' }
+                       'hello.sh': { type: 'file', content: '#!/bin/bash\necho "Hello from BASH!"' },
+                       'scan.sh': { type: 'file', content: '#!/bin/bash\n# Network scanning script\nnmap -sn 192.168.1.0/24' },
+                       'backup.sh': { type: 'file', content: '#!/bin/bash\n# Backup script\ntar -czf backup_$(date +%Y%m%d).tar.gz /home/user/Documents' }
                     }
                   },
                   'tools': {
@@ -68,13 +68,13 @@ export class VirtualFileSystem {
                       'wordlists': {
                         type: 'directory',
                         children: {
-                          'common.txt': { type: 'file', content: 'admin\npassword\n123456\nroot\nuser' },
-                          'directories.txt': { type: 'file', content: 'admin\napi\nbackup\nconfig\ntest' }
+                           'common.txt': { type: 'file', content: 'admin\npassword\n123456\nroot\nuser' },
+                           'directories.txt': { type: 'file', content: 'admin\napi\nbackup\nconfig\ntest' }
                         }
                       }
                     }
                   },
-                  '.bashrc': { type: 'file', content: 'export PS1="\u@alpine:\w$ "\nalias ll="ls -la"\nalias la="ls -A"' }
+                  '.bashrc': { type: 'file', content: 'export PS1="\\u@alpine:\\w$ "\nalias ll="ls -la"\nalias la="ls -A"' }
                 }
               }
             }
