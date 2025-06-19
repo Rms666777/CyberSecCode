@@ -8,6 +8,7 @@ import TerminalPage from '@/components/pages/TerminalPage';
 import LessonPage from '@/components/pages/LessonPage';
 import ChallengesPage from '@/components/pages/ChallengesPage';
 import ProgressPage from '@/components/pages/ProgressPage';
+import LoginPage from '@/components/pages/LoginPage';
 import { moduleData } from '@/data/modules';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
@@ -15,7 +16,8 @@ function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [selectedModule, setSelectedModule] = useState(null);
   const [selectedLesson, setSelectedLesson] = useState(null);
-  const [userProgress, setUserProgress] = useLocalStorage('codemaster-progress', {
+  const [user, setUser] = useLocalStorage('cyberseccode-user', null);
+  const [userProgress, setUserProgress] = useLocalStorage('cyberseccode-progress', {
     completedLessons: [],
     completedChallenges: [],
     streakDays: 0,
@@ -93,6 +95,22 @@ function App() {
     addXP(250);
   };
 
+  const handleLogin = (userData) => {
+    setUser(userData);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setActiveSection('home');
+    setSelectedModule(null);
+    setSelectedLesson(null);
+  };
+
+  // Show login page if user is not logged in
+  if (!user) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header 
@@ -101,6 +119,8 @@ function App() {
         onBackToModules={handleBackToModules}
         showBackButton={selectedModule !== null}
         userProgress={userProgress}
+        user={user}
+        onLogout={handleLogout}
       />
       
       <main className="container mx-auto px-4 py-8">

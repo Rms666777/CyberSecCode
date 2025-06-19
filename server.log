@@ -1,13 +1,10 @@
 
 > web-app@0.0.0 dev
-> vite --host 0.0.0.0 --port 3000
+> vite --host 0.0.0.0 --port 5000
 
-Port 3000 is in use, trying another one...
-Port 3001 is in use, trying another one...
-Port 3002 is in use, trying another one...
 
-  VITE v4.5.14  ready in 571 ms
+  VITE v4.5.14  ready in 567 ms
 
-  ➜  Local:   http://localhost:3003/
-  ➜  Network: http://169.254.0.21:3003/
+  ➜  Local:   http://localhost:5000/
+  ➜  Network: http://169.254.0.21:5000/
   ➜  press h to show help
