@@ -9,31 +9,190 @@ export class VirtualFileSystem {
           'bin': {
             type: 'directory',
             children: {
+              // Core system
               'bash': { type: 'executable', content: 'GNU bash, version 5.1.16' },
+              'sh': { type: 'executable', content: 'POSIX shell' },
+              'busybox': { type: 'executable', content: 'BusyBox v1.36.1 multi-call binary' },
+              
+              // Interpreters
               'python3': { type: 'executable', content: 'Python 3.11.6' },
+              'python': { type: 'executable', content: 'Python 3.11.6' },
               'node': { type: 'executable', content: 'Node.js v18.18.0' },
+              'npm': { type: 'executable', content: 'Node Package Manager' },
+              
+              // File operations
               'ls': { type: 'executable', content: 'list directory contents' },
               'cat': { type: 'executable', content: 'concatenate files' },
+              'cp': { type: 'executable', content: 'copy files' },
+              'mv': { type: 'executable', content: 'move/rename files' },
+              'rm': { type: 'executable', content: 'remove files' },
+              'mkdir': { type: 'executable', content: 'create directories' },
+              'rmdir': { type: 'executable', content: 'remove directories' },
+              'touch': { type: 'executable', content: 'create empty files' },
+              'chmod': { type: 'executable', content: 'change file permissions' },
+              'chown': { type: 'executable', content: 'change file ownership' },
+              'find': { type: 'executable', content: 'search files and directories' },
+              'locate': { type: 'executable', content: 'find files by name' },
+              'which': { type: 'executable', content: 'locate command' },
+              'whereis': { type: 'executable', content: 'locate binary, source, manual' },
+              'file': { type: 'executable', content: 'determine file type' },
+              'stat': { type: 'executable', content: 'display file status' },
+              'du': { type: 'executable', content: 'disk usage' },
+              'df': { type: 'executable', content: 'filesystem disk space' },
+              'ln': { type: 'executable', content: 'create links' },
+              
+              // Text processing
               'grep': { type: 'executable', content: 'search text patterns' },
+              'egrep': { type: 'executable', content: 'extended grep' },
+              'fgrep': { type: 'executable', content: 'fixed string grep' },
               'sed': { type: 'executable', content: 'stream editor' },
               'awk': { type: 'executable', content: 'pattern scanning and processing' },
-              'nmap': { type: 'executable', content: 'Network Mapper' },
-              'netcat': { type: 'executable', content: 'networking utility' },
-              'curl': { type: 'executable', content: 'transfer data from servers' },
+              'sort': { type: 'executable', content: 'sort lines of text' },
+              'uniq': { type: 'executable', content: 'report unique lines' },
+              'cut': { type: 'executable', content: 'extract columns' },
+              'tr': { type: 'executable', content: 'translate characters' },
+              'wc': { type: 'executable', content: 'word, line, character count' },
+              'head': { type: 'executable', content: 'output first lines' },
+              'tail': { type: 'executable', content: 'output last lines' },
+              'less': { type: 'executable', content: 'view file contents' },
+              'more': { type: 'executable', content: 'view file contents' },
+              'diff': { type: 'executable', content: 'compare files' },
+              'patch': { type: 'executable', content: 'apply patches' },
+              
+              // System info
+              'ps': { type: 'executable', content: 'show running processes' },
+              'top': { type: 'executable', content: 'display running processes' },
+              'htop': { type: 'executable', content: 'interactive process viewer' },
+              'kill': { type: 'executable', content: 'terminate processes' },
+              'killall': { type: 'executable', content: 'kill processes by name' },
+              'jobs': { type: 'executable', content: 'show active jobs' },
+              'bg': { type: 'executable', content: 'put jobs in background' },
+              'fg': { type: 'executable', content: 'bring jobs to foreground' },
+              'nohup': { type: 'executable', content: 'run commands immune to hangups' },
+              'uname': { type: 'executable', content: 'system information' },
+              'whoami': { type: 'executable', content: 'current username' },
+              'id': { type: 'executable', content: 'user and group IDs' },
+              'who': { type: 'executable', content: 'show logged in users' },
+              'w': { type: 'executable', content: 'show logged in users and activity' },
+              'uptime': { type: 'executable', content: 'system uptime' },
+              'date': { type: 'executable', content: 'display or set date' },
+              'cal': { type: 'executable', content: 'display calendar' },
+              'env': { type: 'executable', content: 'display environment' },
+              'printenv': { type: 'executable', content: 'print environment variables' },
+              'export': { type: 'executable', content: 'set environment variables' },
+              'alias': { type: 'executable', content: 'create command aliases' },
+              'unalias': { type: 'executable', content: 'remove aliases' },
+              'history': { type: 'executable', content: 'command history' },
+              
+              // Archive and compression
+              'tar': { type: 'executable', content: 'archive files' },
+              'gzip': { type: 'executable', content: 'compress files' },
+              'gunzip': { type: 'executable', content: 'decompress files' },
+              'zip': { type: 'executable', content: 'create zip archives' },
+              'unzip': { type: 'executable', content: 'extract zip archives' },
+              
+              // Network tools
+              'ping': { type: 'executable', content: 'send ICMP echo requests' },
+              'ping6': { type: 'executable', content: 'ping for IPv6' },
+              'traceroute': { type: 'executable', content: 'trace network route' },
+              'netstat': { type: 'executable', content: 'network connections' },
+              'ss': { type: 'executable', content: 'socket statistics' },
+              'ifconfig': { type: 'executable', content: 'configure network interface' },
+              'ip': { type: 'executable', content: 'show/manipulate routing' },
+              'route': { type: 'executable', content: 'show/manipulate routing table' },
+              'arp': { type: 'executable', content: 'manipulate ARP cache' },
+              'dig': { type: 'executable', content: 'DNS lookup' },
+              'nslookup': { type: 'executable', content: 'DNS lookup' },
+              'host': { type: 'executable', content: 'DNS lookup' },
               'wget': { type: 'executable', content: 'retrieve files from web' },
-              'ssh': { type: 'executable', content: 'secure shell client' },
+              'curl': { type: 'executable', content: 'transfer data from servers' },
+              'ftp': { type: 'executable', content: 'file transfer protocol' },
+              'sftp': { type: 'executable', content: 'secure file transfer' },
               'scp': { type: 'executable', content: 'secure copy' },
               'rsync': { type: 'executable', content: 'remote sync' },
+              'ssh': { type: 'executable', content: 'secure shell client' },
+              'telnet': { type: 'executable', content: 'telnet client' },
+              
+              // Security and penetration testing
+              'nmap': { type: 'executable', content: 'Network Mapper' },
+              'masscan': { type: 'executable', content: 'fast port scanner' },
+              'zmap': { type: 'executable', content: 'internet-wide scanner' },
+              'netcat': { type: 'executable', content: 'networking utility' },
+              'nc': { type: 'executable', content: 'netcat alias' },
+              'socat': { type: 'executable', content: 'multipurpose relay' },
               'tcpdump': { type: 'executable', content: 'packet analyzer' },
               'wireshark': { type: 'executable', content: 'network protocol analyzer' },
+              'tshark': { type: 'executable', content: 'terminal wireshark' },
+              'aircrack-ng': { type: 'executable', content: 'WiFi security auditing' },
               'hashcat': { type: 'executable', content: 'password recovery tool' },
               'john': { type: 'executable', content: 'John the Ripper password cracker' },
+              'hydra': { type: 'executable', content: 'login cracker' },
+              'medusa': { type: 'executable', content: 'brute force tool' },
               'metasploit': { type: 'executable', content: 'penetration testing framework' },
+              'msfconsole': { type: 'executable', content: 'metasploit console' },
               'burpsuite': { type: 'executable', content: 'web security testing' },
               'sqlmap': { type: 'executable', content: 'SQL injection tool' },
               'nikto': { type: 'executable', content: 'web server scanner' },
               'dirb': { type: 'executable', content: 'web content scanner' },
-              'gobuster': { type: 'executable', content: 'directory/file brute-forcer' }
+              'dirbuster': { type: 'executable', content: 'directory brute forcer' },
+              'gobuster': { type: 'executable', content: 'directory/file brute-forcer' },
+              'wfuzz': { type: 'executable', content: 'web fuzzer' },
+              'ffuf': { type: 'executable', content: 'fast web fuzzer' },
+              'enum4linux': { type: 'executable', content: 'SMB enumeration' },
+              'smbclient': { type: 'executable', content: 'SMB client' },
+              'rpcclient': { type: 'executable', content: 'RPC client' },
+              'showmount': { type: 'executable', content: 'show NFS exports' },
+              
+              // System utilities
+              'clear': { type: 'executable', content: 'clear terminal screen' },
+              'reset': { type: 'executable', content: 'reset terminal' },
+              'echo': { type: 'executable', content: 'display text' },
+              'printf': { type: 'executable', content: 'formatted output' },
+              'read': { type: 'executable', content: 'read user input' },
+              'sleep': { type: 'executable', content: 'delay execution' },
+              'timeout': { type: 'executable', content: 'run command with timeout' },
+              'watch': { type: 'executable', content: 'execute command repeatedly' },
+              'yes': { type: 'executable', content: 'output string repeatedly' },
+              'true': { type: 'executable', content: 'return true' },
+              'false': { type: 'executable', content: 'return false' },
+              'test': { type: 'executable', content: 'evaluate expressions' },
+              'expr': { type: 'executable', content: 'evaluate expressions' },
+              'bc': { type: 'executable', content: 'calculator' },
+              'dc': { type: 'executable', content: 'desk calculator' },
+              'seq': { type: 'executable', content: 'generate sequences' },
+              'shuf': { type: 'executable', content: 'shuffle lines' },
+              'factor': { type: 'executable', content: 'factor numbers' },
+              
+              // Text editors
+              'vi': { type: 'executable', content: 'vi text editor' },
+              'vim': { type: 'executable', content: 'vim text editor' },
+              'nano': { type: 'executable', content: 'nano text editor' },
+              'emacs': { type: 'executable', content: 'emacs text editor' },
+              
+              // Package management
+              'apk': { type: 'executable', content: 'Alpine package manager' },
+              'apt': { type: 'executable', content: 'Debian package manager' },
+              'yum': { type: 'executable', content: 'RedHat package manager' },
+              'dnf': { type: 'executable', content: 'Fedora package manager' },
+              'pacman': { type: 'executable', content: 'Arch package manager' },
+              'pip': { type: 'executable', content: 'Python package manager' },
+              'pip3': { type: 'executable', content: 'Python3 package manager' },
+              
+              // Development tools
+              'git': { type: 'executable', content: 'version control system' },
+              'gcc': { type: 'executable', content: 'GNU C compiler' },
+              'g++': { type: 'executable', content: 'GNU C++ compiler' },
+              'make': { type: 'executable', content: 'build automation' },
+              'cmake': { type: 'executable', content: 'cross-platform build system' },
+              'gdb': { type: 'executable', content: 'GNU debugger' },
+              'strace': { type: 'executable', content: 'trace system calls' },
+              'ltrace': { type: 'executable', content: 'trace library calls' },
+              'objdump': { type: 'executable', content: 'display object file info' },
+              'nm': { type: 'executable', content: 'list symbols' },
+              'strings': { type: 'executable', content: 'extract strings' },
+              'hexdump': { type: 'executable', content: 'hex dump' },
+              'xxd': { type: 'executable', content: 'hex dump' },
+              'od': { type: 'executable', content: 'octal dump' }
             }
           },
           'etc': {
@@ -57,9 +216,9 @@ export class VirtualFileSystem {
                     children: {
                       'hello.py': { type: 'file', content: 'print("Hello from Python!")' },
                       'hello.js': { type: 'file', content: 'console.log("Hello from Node.js!");' },
-                      'hello.sh': { type: 'file', content: '#!/bin/bash\necho "Hello from BASH!"' },
-                      'scan.sh': { type: 'file', content: '#!/bin/bash\n# Network scanning script\nnmap -sn 192.168.1.0/24' },
-                      'backup.sh': { type: 'file', content: '#!/bin/bash\n# Backup script\ntar -czf backup_$(date +%Y%m%d).tar.gz /home/user/Documents' }
+                       'hello.sh': { type: 'file', content: '#!/bin/bash\necho "Hello from BASH!"' },
+                       'scan.sh': { type: 'file', content: '#!/bin/bash\n# Network scanning script\nnmap -sn 192.168.1.0/24' },
+                       'backup.sh': { type: 'file', content: '#!/bin/bash\n# Backup script\ntar -czf backup_$(date +%Y%m%d).tar.gz /home/user/Documents' }
                     }
                   },
                   'tools': {
@@ -68,13 +227,13 @@ export class VirtualFileSystem {
                       'wordlists': {
                         type: 'directory',
                         children: {
-                          'common.txt': { type: 'file', content: 'admin\npassword\n123456\nroot\nuser' },
-                          'directories.txt': { type: 'file', content: 'admin\napi\nbackup\nconfig\ntest' }
+                           'common.txt': { type: 'file', content: 'admin\npassword\n123456\nroot\nuser' },
+                           'directories.txt': { type: 'file', content: 'admin\napi\nbackup\nconfig\ntest' }
                         }
                       }
                     }
                   },
-                  '.bashrc': { type: 'file', content: 'export PS1="\u@alpine:\w$ "\nalias ll="ls -la"\nalias la="ls -A"' }
+                  '.bashrc': { type: 'file', content: 'export PS1="\\u@alpine:\\w$ "\\nalias ll="ls -la"\\nalias la="ls -A"' }
                 }
               }
             }

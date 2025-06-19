@@ -324,6 +324,12 @@ export class BashInterpreter {
     }
   }
 
+  simulatePing(args) {
+    if (args.length === 0) return 'ping: missing host';
+    const host = args[0];
+    return `PING ${host} (192.168.1.1): 56 data bytes\n64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=1.234 ms\n64 bytes from 192.168.1.1: icmp_seq=2 ttl=64 time=1.456 ms\n--- ${host} ping statistics ---\n2 packets transmitted, 2 received, 0% packet loss`;
+  }
+
   simulateNmap(args) {
     if (args.includes('-sn')) {
       return `Starting Nmap scan...
