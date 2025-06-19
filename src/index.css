@@ -98,6 +98,14 @@
   background: linear-gradient(135deg, #f7df1e 0%, #323330 100%);
 }
 
+.redteam-gradient {
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #7f1d1d 100%);
+}
+
+.blueteam-gradient {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
+}
+
 .glass-effect {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);

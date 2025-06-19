@@ -10,7 +10,9 @@ import {
   Trophy,
   Target,
   TrendingUp,
-  Star
+  Star,
+  Sword,
+  Eye
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -19,7 +21,8 @@ const Header = ({ activeSection, setActiveSection, onBackToModules, showBackButt
     { id: 'home', label: 'Início', icon: <Home className="w-4 h-4" /> },
     { id: 'python', label: 'Python', icon: <Code className="w-4 h-4" /> },
     { id: 'javascript', label: 'JavaScript', icon: <Zap className="w-4 h-4" /> },
-    { id: 'cybersecurity', label: 'Cybersegurança', icon: <Shield className="w-4 h-4" /> },
+    { id: 'redteam', label: 'Red Team', icon: <Sword className="w-4 h-4" /> },
+    { id: 'blueteam', label: 'Blue Team', icon: <Eye className="w-4 h-4" /> },
     { id: 'challenges', label: 'Desafios', icon: <Target className="w-4 h-4" /> },
     { id: 'terminal', label: 'Terminal', icon: <Terminal className="w-4 h-4" /> },
     { id: 'progress', label: 'Progresso', icon: <TrendingUp className="w-4 h-4" /> },

@@ -110,11 +110,19 @@ const HomePage = ({ setActiveSection, userProgress }) => {
           </Button>
           <Button 
             size="lg" 
-            className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-8 py-4 text-lg cyber-glow"
-            onClick={() => setActiveSection('cybersecurity')}
+            className="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white px-8 py-4 text-lg"
+            onClick={() => setActiveSection('redteam')}
+          >
+            <Target className="w-5 h-5 mr-2" />
+            Red Team
+          </Button>
+          <Button 
+            size="lg" 
+            className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-8 py-4 text-lg"
+            onClick={() => setActiveSection('blueteam')}
           >
             <Shield className="w-5 h-5 mr-2" />
-            Cybersegurança
+            Blue Team
           </Button>
         </div>
       </motion.div>

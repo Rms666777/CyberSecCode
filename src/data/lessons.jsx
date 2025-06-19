@@ -1,6 +1,7 @@
 export const generateLessons = (module) => {
   const lessons = [];
   
+  // PYTHON MODULES
   if (module.id === 'python-basics') {
     lessons.push(
       {
@@ -103,526 +104,163 @@ print(f"Altura: {altura}m")`,
 
 # Exiba as informações usando f-strings`
         }
-      },
-      {
-        id: 'python-basics-3',
-        title: 'Operadores e Expressões',
-        difficulty: 'Básico',
-        content: `# Operadores em Python
-
-Os operadores permitem realizar operações com variáveis e valores.
-
-## Operadores Aritméticos:
-- **+** : adição
-- **-** : subtração  
-- ***** : multiplicação
-- **/** : divisão (resultado float)
-- **//** : divisão inteira
-- **%** : módulo (resto da divisão)
-- ****** : exponenciação
-
-## Operadores de Comparação:
-- **==** : igual a
-- **!=** : diferente de
-- **<** : menor que
-- **>** : maior que
-- **<=** : menor ou igual
-- **>=** : maior ou igual
-
-## Operadores Lógicos:
-- **and** : E lógico
-- **or** : OU lógico  
-- **not** : NÃO lógico`,
-        code: `# Operadores aritméticos
-a = 10
-b = 3
-
-print(f"a + b = {a + b}")    # 13
-print(f"a - b = {a - b}")    # 7
-print(f"a * b = {a * b}")    # 30
-print(f"a / b = {a / b}")    # 3.333...
-print(f"a // b = {a // b}")  # 3 (divisão inteira)
-print(f"a % b = {a % b}")    # 1 (resto)
-print(f"a ** b = {a ** b}")  # 1000 (10³)
-
-# Operadores de comparação
-x = 5
-y = 10
-
-print(f"x == y: {x == y}")   # False
-print(f"x != y: {x != y}")   # True
-print(f"x < y: {x < y}")     # True
-print(f"x > y: {x > y}")     # False
-
-# Operadores lógicos
-tem_carteira = True
-maior_idade = True
-pode_dirigir = tem_carteira and maior_idade
-
-print(f"Pode dirigir: {pode_dirigir}")  # True
-
-# Precedência de operadores
-resultado = 2 + 3 * 4  # 14, não 20
-print(f"2 + 3 * 4 = {resultado}")
-
-# Use parênteses para clareza
-resultado2 = (2 + 3) * 4  # 20
-print(f"(2 + 3) * 4 = {resultado2}")`,
-        explanation: 'Os operadores seguem uma ordem de precedência específica. Multiplicação e divisão têm precedência sobre adição e subtração. Use parênteses para deixar a ordem explícita.',
-        tips: [
-          'Use parênteses para deixar a precedência clara',
-          'O operador // é útil quando você quer apenas a parte inteira da divisão',
-          'O operador % é muito usado para verificar se um número é par (n % 2 == 0)'
-        ],
-        exercise: {
-          description: 'Crie uma calculadora simples que realiza operações básicas.',
-          starter: `# Calculadora simples
-num1 = 15
-num2 = 4
-
-# Realize todas as operações aritméticas
-# e exiba os resultados formatados
-
-# Exemplo: print(f"{num1} + {num2} = {num1 + num2}")
-
-# Seu código aqui`
-        }
-      },
-      {
-        id: 'python-basics-4',
-        title: 'Entrada de Dados com input()',
-        difficulty: 'Básico',
-        content: `# Entrada de Dados
-
-A função input() permite que o usuário digite informações que serão usadas pelo programa.
-
-## Características do input():
-- Sempre retorna uma string
-- Pode exibir uma mensagem para o usuário
-- Pausa a execução até o usuário pressionar Enter
-- Para usar como número, precisa converter
-
-## Conversões Comuns:
-- **int()**: converte para número inteiro
-- **float()**: converte para número decimal
-- **str()**: converte para string (raramente necessário)
-- **bool()**: converte para booleano`,
-        code: `# Entrada básica
-nome = input("Digite seu nome: ")
-print(f"Olá, {nome}!")
-
-# Entrada numérica - SEMPRE converter!
-idade_str = input("Digite sua idade: ")
-idade = int(idade_str)  # Converte string para int
-
-# Ou em uma linha
-altura = float(input("Digite sua altura (m): "))
-
-# Calculando com os dados
-ano_atual = 2024
-ano_nascimento = ano_atual - idade
-
-print(f"Você nasceu em {ano_nascimento}")
-print(f"Sua altura é {altura}m")
-
-# Validação simples
-resposta = input("Você gosta de Python? (s/n): ")
-if resposta.lower() == 's':
-    print("Ótima escolha!")
-else:
-    print("Que pena, mas continue aprendendo!")
-
-# Múltiplas entradas
-print("Digite dois números:")
-num1 = float(input("Primeiro número: "))
-num2 = float(input("Segundo número: "))
-
-soma = num1 + num2
-print(f"A soma é: {soma}")`,
-        explanation: 'Lembre-se: input() SEMPRE retorna uma string! Se você precisar de um número, deve converter usando int() ou float(). Isso é uma fonte comum de erros para iniciantes.',
-        tips: [
-          'Sempre converta input() para o tipo correto antes de usar em cálculos',
-          'Use mensagens claras para orientar o usuário',
-          'Considere usar .lower() ou .upper() para comparar strings',
-          'Em programas reais, sempre valide a entrada do usuário'
-        ],
-        exercise: {
-          description: 'Crie um programa que calcula a área de um retângulo com dados do usuário.',
-          starter: `# Calculadora de área do retângulo
-
-# Peça ao usuário a largura e altura
-# Calcule e exiba a área
-# Bonus: calcule também o perímetro
-
-print("=== Calculadora de Área ===")
-
-# Seu código aqui`
-        }
-      },
-      {
-        id: 'python-basics-5',
-        title: 'Estruturas Condicionais - if, elif, else',
-        difficulty: 'Básico',
-        content: `# Estruturas Condicionais
-
-As estruturas condicionais permitem que o programa tome decisões baseadas em condições.
-
-## Sintaxe:
-- **if**: executa se a condição for verdadeira
-- **elif**: "else if" - condição alternativa
-- **else**: executa se nenhuma condição anterior for verdadeira
-
-## Importante:
-- Use dois pontos (:) após cada condição
-- Indentação é obrigatória (4 espaços recomendados)
-- Pode ter múltiplos elif
-- else é opcional`,
-        code: `# Estrutura if simples
-idade = 18
-
-if idade >= 18:
-    print("Você é maior de idade")
-    print("Pode votar!")
-
-# if-else
-temperatura = 25
-
-if temperatura > 30:
-    print("Está muito quente!")
-else:
-    print("Temperatura agradável")
-
-# if-elif-else
-nota = 85
-
-if nota >= 90:
-    print("Conceito A - Excelente!")
-elif nota >= 80:
-    print("Conceito B - Bom!")
-elif nota >= 70:
-    print("Conceito C - Regular")
-elif nota >= 60:
-    print("Conceito D - Suficiente")
-else:
-    print("Conceito F - Insuficiente")
-
-# Condições múltiplas
-usuario = "admin"
-senha = "123456"
-
-if usuario == "admin" and senha == "123456":
-    print("Login realizado com sucesso!")
-elif usuario == "admin":
-    print("Senha incorreta!")
-elif senha == "123456":
-    print("Usuário incorreto!")
-else:
-    print("Usuário e senha incorretos!")
-
-# Operador ternário (if inline)
-status = "ativo" if idade >= 18 else "inativo"
-print(f"Status: {status}")
-
-# Verificando múltiplas condições
-dia = "sábado"
-
-if dia in ["sábado", "domingo"]:
-    print("É fim de semana!")
-else:
-    print("É dia útil")`,
-        explanation: 'A indentação em Python não é apenas estilo - é parte da sintaxe! Todas as linhas que pertencem ao mesmo bloco devem ter a mesma indentação.',
-        tips: [
-          'Use 4 espaços para indentação (padrão Python)',
-          'Evite condições muito complexas - quebre em variáveis',
-          'O operador "in" é muito útil para verificar se um valor está em uma lista',
-          'Teste sempre os casos extremos (valores limite)'
-        ],
-        exercise: {
-          description: 'Crie um programa que classifica a idade de uma pessoa em categorias.',
-          starter: `# Classificador de idade
-# 0-12: Criança
-# 13-17: Adolescente  
-# 18-59: Adulto
-# 60+: Idoso
-
-idade = int(input("Digite sua idade: "))
-
-# Seu código aqui`
-        }
-      }
-    );
-  } else if (module.id === 'js-basics') {
-    lessons.push(
-      {
-        id: 'js-basics-1',
-        title: 'Introdução ao JavaScript',
-        difficulty: 'Básico',
-        content: `# Bem-vindo ao JavaScript!
-
-JavaScript é a linguagem da web! Criada em 1995 por Brendan Eich, JavaScript evoluiu de uma linguagem simples para uma das mais poderosas e versáteis do mundo.
-
-## Por que JavaScript?
-- **Linguagem da Web**: Roda em todos os navegadores
-- **Full Stack**: Frontend e backend (Node.js)
-- **Dinâmica**: Tipagem dinâmica e flexível
-- **Comunidade Ativa**: Milhões de desenvolvedores
-- **Ecossistema Rico**: NPM com milhões de pacotes
-
-## Onde JavaScript é usado?
-- Sites interativos
-- Aplicações web (React, Vue, Angular)
-- Servidores (Node.js)
-- Aplicativos mobile (React Native)
-- Desktop (Electron)
-- IoT e muito mais!
-
-## Primeiro Programa
-Vamos começar com o clássico "Hello, World!":`,
-        code: `// Meu primeiro programa JavaScript
-console.log("Olá, mundo!");
-console.log("Bem-vindo ao CodeMaster!");
-
-// Você pode usar aspas simples, duplas ou template literals
-console.log('JavaScript é incrível!');
-console.log("Vamos aprender juntos!");
-console.log(\`Template literals são úteis!\`);
-
-// Comentários de linha única começam com //
-
-/*
-  Comentários de múltiplas linhas
-  ficam entre /* e */
-*/
-
-// Exibindo no navegador (se estiver em uma página web)
-// alert("Olá do JavaScript!");
-
-// Diferentes formas de saída
-console.log("Para desenvolvedores");
-console.warn("Aviso importante");
-console.error("Mensagem de erro");`,
-        explanation: 'console.log() é usado para exibir informações no console do navegador ou terminal. É a ferramenta principal para debug e desenvolvimento em JavaScript.',
-        tips: [
-          'Use console.log() para debugar seu código',
-          'Template literals (`) permitem interpolação de variáveis',
-          'JavaScript é case-sensitive (maiúsculas e minúsculas importam)',
-          'Ponto e vírgula é opcional, mas recomendado'
-        ]
-      },
-      {
-        id: 'js-basics-2',
-        title: 'Variáveis e Tipos de Dados',
-        difficulty: 'Básico',
-        content: `# Variáveis em JavaScript
-
-JavaScript tem três formas de declarar variáveis: var, let e const.
-
-## Declarações:
-- **let**: variável que pode mudar (escopo de bloco)
-- **const**: constante (não pode ser reatribuída)
-- **var**: forma antiga (evite usar)
-
-## Tipos Primitivos:
-- **number**: números (inteiros e decimais)
-- **string**: texto
-- **boolean**: true ou false
-- **undefined**: valor não definido
-- **null**: valor nulo intencionalmente
-- **symbol**: identificador único (ES6)
-- **bigint**: números muito grandes (ES2020)
-
-## Tipos de Referência:
-- **object**: objetos, arrays, funções`,
-        code: `// Declaração de variáveis
-let idade = 25;              // number
-const nome = "João";         // string
-let ativo = true;            // boolean
-let indefinido;              // undefined
-let nulo = null;             // null
-
-// JavaScript é dinamicamente tipado
-let valor = 42;              // number
-valor = "agora é string";    // string
-valor = true;                // boolean
-
-// const não pode ser reatribuída
-const PI = 3.14159;
-// PI = 3.14; // Erro!
-
-// Mas objetos const podem ser modificados
-const pessoa = { nome: "Ana", idade: 30 };
-pessoa.idade = 31; // OK!
-pessoa.cidade = "São Paulo"; // OK!
-
-// Verificando tipos
-console.log(typeof idade);     // "number"
-console.log(typeof nome);      // "string"
-console.log(typeof ativo);     // "boolean"
-console.log(typeof indefinido); // "undefined"
-console.log(typeof nulo);      // "object" (peculiaridade do JS)
-
-// Template literals (ES6)
-const saudacao = \`Olá, \${nome}! Você tem \${idade} anos.\`;
-console.log(saudacao);
-
-// Conversões de tipo
-const numeroString = "42";
-const numero = Number(numeroString);  // 42
-const texto = String(123);            // "123"
-const booleano = Boolean(1);          // true
-
-console.log(\`Conversões: \${numero}, \${texto}, \${booleano}\`);`,
-        explanation: 'Use "let" para variáveis que podem mudar, "const" para constantes. Evite "var" em código moderno. JavaScript converte tipos automaticamente, mas é melhor ser explícito.',
-        tips: [
-          'Prefira const quando o valor não vai mudar',
-          'Use let quando precisar reatribuir a variável',
-          'Template literals (`) são mais legíveis que concatenação',
-          'typeof null retorna "object" - é uma peculiaridade histórica do JavaScript'
-        ],
-        exercise: {
-          description: 'Crie variáveis para informações pessoais e exiba-as formatadas.',
-          starter: `// Crie variáveis para:
-// - Seu nome (const)
-// - Sua idade (let)
-// - Se você é estudante (boolean)
-// - Sua linguagem favorita (const)
-
-// Seu código aqui
-
-// Exiba as informações usando template literals
-// Exemplo: console.log(\`Meu nome é \${nome}\`);`
-        }
-      }
-    );
-  } else if (module.id === 'cyber-basics') {
-    lessons.push(
-      {
-        id: 'cyber-basics-1',
-        title: 'Fundamentos de Cybersegurança',
-        difficulty: 'Básico',
-        featured: true,
-        content: `# Introdução à Cybersegurança
-
-A cybersegurança é a prática de proteger sistemas, redes e dados de ataques digitais. Em um mundo cada vez mais conectado, a segurança digital se tornou fundamental.
-
-## Tríade CIA da Segurança:
-
-### 🔒 Confidencialidade (Confidentiality)
-- Garantir que informações sejam acessíveis apenas por pessoas autorizadas
-- Exemplos: criptografia, controle de acesso, autenticação
-
-### 🛡️ Integridade (Integrity)  
-- Assegurar que dados não sejam alterados de forma não autorizada
-- Exemplos: checksums, assinaturas digitais, controle de versão
-
-### ⚡ Disponibilidade (Availability)
-- Manter sistemas e dados acessíveis quando necessário
-- Exemplos: backups, redundância, proteção contra DDoS
-
-## Tipos Comuns de Ameaças:
-- **Malware**: vírus, trojans, ransomware
-- **Phishing**: engenharia social via email/sites falsos
-- **Ataques de Força Bruta**: tentativas repetidas de login
-- **SQL Injection**: exploração de vulnerabilidades em bancos de dados
-- **Cross-Site Scripting (XSS)**: injeção de código malicioso em sites`,
-        code: `# Exemplo: Verificação básica de senha
-import hashlib
-import re
-
-def verificar_senha_segura(senha):
-    """
-    Verifica se uma senha atende critérios básicos de segurança
-    Retorna: (bool, str) - (é_segura, mensagem)
-    """
-    
-    # Critério 1: Comprimento mínimo
-    if len(senha) < 8:
-        return False, "Senha deve ter pelo menos 8 caracteres"
-    
-    # Critério 2: Deve conter maiúscula
-    if not re.search(r'[A-Z]', senha):
-        return False, "Senha deve conter pelo menos uma letra maiúscula"
-    
-    # Critério 3: Deve conter minúscula
-    if not re.search(r'[a-z]', senha):
-        return False, "Senha deve conter pelo menos uma letra minúscula"
-    
-    # Critério 4: Deve conter número
-    if not re.search(r'[0-9]', senha):
-        return False, "Senha deve conter pelo menos um número"
-    
-    # Critério 5: Deve conter caractere especial
-    if not re.search(r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]', senha):
-        return False, "Senha deve conter pelo menos um caractere especial"
-    
-    return True, "Senha segura!"
-
-def hash_senha(senha):
-    """
-    Cria um hash seguro da senha usando SHA-256
-    """
-    return hashlib.sha256(senha.encode()).hexdigest()
-
-# Testando senhas
-senhas_teste = [
-    "123456",           # Fraca
-    "password",         # Fraca  
-    "MinhaSenh@123",    # Forte
-    "P@ssw0rd!",        # Forte
-]
-
-print("=== Análise de Senhas ===")
-for senha in senhas_teste:
-    segura, mensagem = verificar_senha_segura(senha)
-    status = "✅ SEGURA" if segura else "❌ INSEGURA"
-    
-    print(f"Senha: {senha}")
-    print(f"Status: {status}")
-    print(f"Motivo: {mensagem}")
-    
-    if segura:
-        hash_resultado = hash_senha(senha)
-        print(f"Hash SHA-256: {hash_resultado[:20]}...")
-    
-    print("-" * 40)`,
-        explanation: 'Senhas fortes são a primeira linha de defesa. Sempre use critérios rigorosos: comprimento mínimo, mistura de caracteres e nunca armazene senhas em texto plano - sempre use hash!',
-        tips: [
-          'Nunca armazene senhas em texto plano',
-          'Use algoritmos de hash seguros como bcrypt ou Argon2',
-          'Implemente autenticação de dois fatores quando possível',
-          'Eduque usuários sobre senhas seguras'
-        ],
-        exercise: {
-          description: 'Implemente um gerador de senhas seguras que atenda aos critérios de segurança.',
-          starter: `import random
-import string
-
-def gerar_senha_segura(tamanho=12):
-    """
-    Gera uma senha segura com o tamanho especificado
-    Deve conter: maiúscula, minúscula, número e símbolo
-    """
-    
-    # Defina os conjuntos de caracteres
-    # minusculas = string.ascii_lowercase
-    # maiusculas = string.ascii_uppercase  
-    # numeros = string.digits
-    # simbolos = "!@#$%^&*"
-    
-    # Seu código aqui
-    pass
-
-# Teste sua função
-senha = gerar_senha_segura(16)
-print(f"Senha gerada: {senha}")
-
-# Verifique se ela passa nos critérios de segurança`
-        }
       }
     );
   }
 
-  // Fill remaining lessons with placeholder content
+  // Fill remaining lessons with comprehensive content
+  const moduleContentMap = {
+    'python-basics': {
+      topics: ['Introdução ao Python', 'Variáveis e Tipos', 'Operadores', 'Estruturas Condicionais', 'Loops', 'Funções Básicas', 'Input/Output', 'Strings', 'Debugging', 'Exercícios Práticos'],
+      hours: 25
+    },
+    'python-data-structures': {
+      topics: ['Listas - Introdução', 'Listas - Métodos', 'Tuplas', 'Dicionários', 'Conjuntos', 'Compreensões de Lista', 'Iteradores', 'Generators', 'Collections Module', 'Exercícios Avançados'],
+      hours: 30
+    },
+    'python-functions': {
+      topics: ['Definição de Funções', 'Parâmetros e Argumentos', 'Escopo de Variáveis', 'Módulos', 'Packages', 'Decorators Básicos', 'Funções Lambda', 'Recursão', 'Documentação', 'Testes'],
+      hours: 35
+    },
+    'python-oop': {
+      topics: ['Classes e Objetos', 'Atributos e Métodos', 'Herança', 'Polimorfismo', 'Encapsulamento', 'Métodos Especiais', 'Properties', 'Classes Abstratas', 'Design Patterns', 'Projetos OOP'],
+      hours: 40
+    },
+    'python-advanced': {
+      topics: ['Decorators Avançados', 'Context Managers', 'Metaclasses', 'Descriptors', 'Threading', 'Asyncio', 'Memory Management', 'Performance Optimization', 'Profiling', 'Best Practices'],
+      hours: 45
+    },
+    'python-data-science': {
+      topics: ['NumPy Fundamentals', 'Pandas Basics', 'Data Manipulation', 'Matplotlib', 'Seaborn', 'Scikit-learn', 'Jupyter Notebooks', 'Data Cleaning', 'Machine Learning', 'Projetos Reais'],
+      hours: 50
+    },
+    'python-web': {
+      topics: ['Flask Básico', 'Django Framework', 'APIs REST', 'FastAPI', 'Database ORM', 'Authentication', 'Testing', 'Deployment', 'Microservices', 'Projetos Web'],
+      hours: 50
+    },
+    'python-automation': {
+      topics: ['Scripts de Sistema', 'Web Scraping', 'Automação de Tarefas', 'Bots', 'Selenium', 'APIs Integration', 'Task Scheduling', 'DevOps Tools', 'Monitoring', 'Projetos Automation'],
+      hours: 40
+    },
+    'js-basics': {
+      topics: ['Introdução ao JavaScript', 'Variáveis e Tipos', 'Operadores', 'Condicionais', 'Loops', 'Funções', 'Arrays', 'Objetos', 'DOM Básico', 'Exercícios'],
+      hours: 30
+    },
+    'js-dom': {
+      topics: ['Seleção de Elementos', 'Manipulação DOM', 'Eventos', 'Event Listeners', 'Forms', 'Validação', 'Animações CSS', 'Local Storage', 'AJAX Básico', 'Projetos DOM'],
+      hours: 25
+    },
+    'js-es6': {
+      topics: ['Arrow Functions', 'Template Literals', 'Destructuring', 'Spread/Rest', 'Modules', 'Classes', 'Promises', 'Async/Await', 'Map/Set', 'Projetos ES6'],
+      hours: 35
+    },
+    'js-async': {
+      topics: ['Callbacks', 'Promises', 'Async/Await', 'Fetch API', 'AJAX', 'Error Handling', 'Parallel Processing', 'Web Workers', 'Performance', 'Projetos Async'],
+      hours: 30
+    },
+    'js-frameworks': {
+      topics: ['React Basics', 'Components', 'State Management', 'Hooks', 'Router', 'Context API', 'Testing', 'Performance', 'Next.js', 'Projetos React'],
+      hours: 45
+    },
+    'js-nodejs': {
+      topics: ['Node.js Basics', 'Express.js', 'NPM', 'File System', 'HTTP Servers', 'Middleware', 'Database Integration', 'Authentication', 'Testing', 'Projetos Backend'],
+      hours: 40
+    },
+    'js-fullstack': {
+      topics: ['MERN Stack', 'Database Design', 'API Development', 'Frontend Integration', 'State Management', 'Testing', 'Deployment', 'DevOps', 'Scaling', 'Projetos Fullstack'],
+      hours: 50
+    },
+    'js-mobile': {
+      topics: ['React Native', 'Navigation', 'Native Modules', 'Styling', 'State Management', 'APIs', 'Publishing', 'Performance', 'Testing', 'Projetos Mobile'],
+      hours: 35
+    },
+    'redteam-basics': {
+      topics: ['Introdução ao Ethical Hacking', 'Ética e Legalidade', 'Metodologias', 'Ferramentas Básicas', 'Laboratórios', 'Documentação', 'Relatórios', 'Frameworks', 'Certificações', 'Carreira'],
+      hours: 25
+    },
+    'redteam-recon': {
+      topics: ['OSINT Fundamentals', 'Google Dorking', 'Social Engineering', 'DNS Enumeration', 'Subdomain Discovery', 'Email Harvesting', 'Metadata Analysis', 'Footprinting', 'Tools', 'Projetos OSINT'],
+      hours: 30
+    },
+    'redteam-vuln-assessment': {
+      topics: ['Vulnerability Scanners', 'Manual Testing', 'CVE Database', 'Risk Assessment', 'Prioritization', 'False Positives', 'Reporting', 'Remediation', 'Automation', 'Case Studies'],
+      hours: 35
+    },
+    'redteam-web-pentest': {
+      topics: ['OWASP Top 10', 'SQL Injection', 'XSS', 'CSRF', 'Authentication Bypass', 'Session Management', 'File Upload', 'Business Logic', 'API Testing', 'Projetos Web'],
+      hours: 40
+    },
+    'redteam-network-pentest': {
+      topics: ['Network Scanning', 'Service Enumeration', 'Lateral Movement', 'Privilege Escalation', 'Active Directory', 'Pivoting', 'Tunneling', 'Persistence', 'Cleanup', 'Projetos Network'],
+      hours: 45
+    },
+    'redteam-exploitation': {
+      topics: ['Exploit Development', 'Buffer Overflows', 'Return Oriented Programming', 'Shellcode', 'Payloads', 'Encoders', 'Post-Exploitation', 'Data Exfiltration', 'Custom Tools', 'Advanced Exploits'],
+      hours: 45
+    },
+    'redteam-apt': {
+      topics: ['APT Tactics', 'Evasion Techniques', 'Anti-Forensics', 'Covert Channels', 'Advanced Malware', 'C2 Infrastructure', 'Attribution', 'Threat Intelligence', 'Campaign Analysis', 'Defense Evasion'],
+      hours: 50
+    },
+    'redteam-operations': {
+      topics: ['Team Coordination', 'C2 Frameworks', 'Operational Security', 'Campaign Planning', 'Reporting', 'Debrief', 'Continuous Improvement', 'Leadership', 'Client Relations', 'Advanced Operations'],
+      hours: 50
+    },
+    'blueteam-basics': {
+      topics: ['Fundamentos da Defesa', 'Defense Frameworks', 'Security Controls', 'Risk Management', 'Compliance', 'Policies', 'Procedures', 'Training', 'Awareness', 'Metrics'],
+      hours: 25
+    },
+    'blueteam-monitoring': {
+      topics: ['SIEM Fundamentals', 'Log Analysis', 'Network Monitoring', 'Endpoint Detection', 'Alerting', 'Dashboards', 'Metrics', 'Baselines', 'Tuning', 'Advanced Monitoring'],
+      hours: 35
+    },
+    'blueteam-incident-response': {
+      topics: ['IR Frameworks', 'Playbooks', 'Containment', 'Eradication', 'Recovery', 'Lessons Learned', 'Communication', 'Legal Considerations', 'Automation', 'Advanced IR'],
+      hours: 40
+    },
+    'blueteam-forensics': {
+      topics: ['Digital Evidence', 'Acquisition', 'Analysis', 'Timeline Analysis', 'Memory Forensics', 'Network Forensics', 'Mobile Forensics', 'Reporting', 'Tools', 'Case Studies'],
+      hours: 40
+    },
+    'blueteam-soc': {
+      topics: ['SOC Design', 'Workflows', 'Automation', 'Orchestration', 'Metrics', 'KPIs', 'Staffing', 'Technology Stack', 'Maturity Models', 'SOC Evolution'],
+      hours: 45
+    },
+    'blueteam-threat-hunting': {
+      topics: ['Hunting Methodologies', 'Hypothesis Development', 'Data Analysis', 'TTPs', 'Threat Intelligence', 'IOCs', 'Behavioral Analysis', 'Tools', 'Automation', 'Advanced Hunting'],
+      hours: 45
+    },
+    'blueteam-malware-analysis': {
+      topics: ['Static Analysis', 'Dynamic Analysis', 'Reverse Engineering', 'Sandboxing', 'Behavioral Analysis', 'IOC Extraction', 'Yara Rules', 'Reporting', 'Automation', 'Advanced Analysis'],
+      hours: 50
+    },
+    'blueteam-architecture': {
+      topics: ['Security Architecture', 'Zero Trust', 'Defense in Depth', 'Network Segmentation', 'Identity Management', 'Cloud Security', 'DevSecOps', 'Governance', 'Risk Management', 'Future Trends'],
+      hours: 50
+    }
+  };
+
+  // Generate lessons for each module based on topics
+  const moduleInfo = moduleContentMap[module.id];
+  if (moduleInfo && lessons.length === 0) {
+    moduleInfo.topics.forEach((topic, index) => {
+      const lessonNumber = index + 1;
+      const difficulty = lessonNumber <= 3 ? 'Básico' : lessonNumber <= 7 ? 'Intermediário' : 'Avançado';
+      
+      lessons.push({
+        id: `${module.id}-${lessonNumber}`,
+        title: topic,
+        difficulty: difficulty,
+        content: generateLessonContent(module.id, topic, lessonNumber),
+        code: generateCodeExample(module.id, topic),
+        explanation: generateExplanation(module.id, topic),
+        tips: generateTips(module.id, topic),
+        exercise: generateExercise(module.id, topic)
+      });
+    });
+  }
+
+  // Fill remaining lessons if needed
   while (lessons.length < module.lessons) {
     const lessonNumber = lessons.length + 1;
     lessons.push({
@@ -675,3 +313,255 @@ print(resultado)`,
 
   return lessons;
 };
+
+function generateLessonContent(moduleId, topic, lessonNumber) {
+  const contentTemplates = {
+    python: `# ${topic}
+
+Esta lição aborda ${topic.toLowerCase()} em Python, um conceito fundamental para o desenvolvimento.
+
+## Objetivos da Lição:
+- Compreender os conceitos básicos de ${topic.toLowerCase()}
+- Aplicar conhecimentos em exemplos práticos
+- Desenvolver habilidades de resolução de problemas
+- Preparar-se para conceitos mais avançados
+
+## Conceitos Importantes:
+${topic} é essencial para programação Python porque permite que você:
+- Organize e estruture seu código de forma eficiente
+- Resolva problemas complexos de maneira sistemática
+- Implemente soluções robustas e escaláveis
+- Siga as melhores práticas da comunidade Python
+
+## Aplicações Práticas:
+- Desenvolvimento de aplicações web
+- Análise de dados e ciência de dados
+- Automação de tarefas
+- Inteligência artificial e machine learning`,
+
+    javascript: `# ${topic}
+
+Esta lição explora ${topic.toLowerCase()} em JavaScript, fundamental para desenvolvimento web moderno.
+
+## Objetivos da Lição:
+- Dominar os conceitos de ${topic.toLowerCase()}
+- Implementar soluções práticas e eficientes
+- Compreender as melhores práticas
+- Preparar-se para frameworks avançados
+
+## Por que ${topic} é Importante:
+No desenvolvimento JavaScript, ${topic.toLowerCase()} permite:
+- Criar interfaces de usuário interativas
+- Desenvolver aplicações web dinâmicas
+- Implementar lógica de negócio complexa
+- Integrar com APIs e serviços externos
+
+## Aplicações no Mundo Real:
+- Desenvolvimento frontend com React/Vue/Angular
+- Aplicações backend com Node.js
+- Desenvolvimento mobile com React Native
+- Aplicações desktop com Electron`,
+
+    redteam: `# ${topic}
+
+Esta lição aborda ${topic.toLowerCase()} no contexto de Red Team e Ethical Hacking.
+
+## Objetivos da Lição:
+- Compreender as técnicas de ${topic.toLowerCase()}
+- Aplicar metodologias éticas de teste
+- Desenvolver habilidades de análise de segurança
+- Documentar achados de forma profissional
+
+## Importância no Red Team:
+${topic} é crucial para operações de Red Team porque:
+- Permite identificar vulnerabilidades reais
+- Simula ataques de adversários reais
+- Testa a eficácia das defesas
+- Fornece insights para melhorias de segurança
+
+## Considerações Éticas:
+- Sempre obter autorização por escrito
+- Respeitar o escopo definido
+- Proteger informações sensíveis
+- Reportar vulnerabilidades responsavelmente`,
+
+    blueteam: `# ${topic}
+
+Esta lição foca em ${topic.toLowerCase()} para operações de Blue Team e defesa cibernética.
+
+## Objetivos da Lição:
+- Implementar estratégias de ${topic.toLowerCase()}
+- Desenvolver capacidades de detecção
+- Criar processos de resposta eficazes
+- Melhorar a postura de segurança organizacional
+
+## Papel no Blue Team:
+${topic} é fundamental para Blue Team porque:
+- Fortalece as defesas organizacionais
+- Detecta atividades maliciosas
+- Responde rapidamente a incidentes
+- Previne futuros ataques
+
+## Frameworks e Padrões:
+- NIST Cybersecurity Framework
+- ISO 27001/27002
+- CIS Controls
+- MITRE ATT&CK Framework`
+  };
+
+  const category = moduleId.includes('python') ? 'python' :
+                  moduleId.includes('js') ? 'javascript' :
+                  moduleId.includes('redteam') ? 'redteam' : 'blueteam';
+
+  return contentTemplates[category];
+}
+
+function generateCodeExample(moduleId, topic) {
+  if (moduleId.includes('python')) {
+    return `# Exemplo prático: ${topic}
+def exemplo_${topic.toLowerCase().replace(/\s+/g, '_')}():
+    """
+    Demonstração de ${topic} em Python
+    """
+    print(f"Aprendendo sobre: {topic}")
+    
+    # Implementação do conceito
+    resultado = "Conceito aplicado com sucesso!"
+    return resultado
+
+# Executando o exemplo
+resultado = exemplo_${topic.toLowerCase().replace(/\s+/g, '_')}()
+print(resultado)
+
+# Exercício prático
+# TODO: Implemente sua própria versão do conceito`;
+  } else if (moduleId.includes('js')) {
+    return `// Exemplo prático: ${topic}
+function exemplo${topic.replace(/\s+/g, '')}() {
+    console.log(\`Aprendendo sobre: ${topic}\`);
+    
+    // Implementação do conceito
+    const resultado = "Conceito aplicado com sucesso!";
+    return resultado;
+}
+
+// Executando o exemplo
+const resultado = exemplo${topic.replace(/\s+/g, '')}();
+console.log(resultado);
+
+// Exercício prático
+// TODO: Implemente sua própria versão do conceito`;
+  } else if (moduleId.includes('redteam')) {
+    return `# Red Team - ${topic}
+import subprocess
+import sys
+
+def demonstracao_${topic.toLowerCase().replace(/\s+/g, '_')}():
+    """
+    Demonstração ética de ${topic}
+    AVISO: Use apenas em ambientes autorizados!
+    """
+    print(f"🔴 Red Team: {topic}")
+    print("⚠️  Lembre-se: Sempre obtenha autorização!")
+    
+    # Exemplo de técnica (apenas educacional)
+    print("Executando técnica de forma ética...")
+    return "Técnica demonstrada com sucesso"
+
+# IMPORTANTE: Só execute em laboratórios próprios
+resultado = demonstracao_${topic.toLowerCase().replace(/\s+/g, '_')}()
+print(resultado)`;
+  } else {
+    return `# Blue Team - ${topic}
+import logging
+import datetime
+
+def implementar_${topic.toLowerCase().replace(/\s+/g, '_')}():
+    """
+    Implementação de ${topic} para defesa
+    """
+    print(f"🔵 Blue Team: {topic}")
+    
+    # Configuração de logging para monitoramento
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+    
+    logger.info(f"Implementando {topic}")
+    
+    # Implementação da defesa
+    defesa_ativa = True
+    return f"{topic} implementado com sucesso"
+
+# Executando a implementação
+resultado = implementar_${topic.toLowerCase().replace(/\s+/g, '_')}()
+print(resultado)`;
+  }
+}
+
+function generateExplanation(moduleId, topic) {
+  const explanations = {
+    python: `Este exemplo demonstra como ${topic.toLowerCase()} funciona em Python. O conceito é fundamental para escrever código eficiente e legível.`,
+    javascript: `Este código mostra a implementação de ${topic.toLowerCase()} em JavaScript, essencial para desenvolvimento web moderno.`,
+    redteam: `Esta demonstração ilustra técnicas de ${topic.toLowerCase()} usadas em operações de Red Team. Sempre pratique em ambientes controlados e autorizados.`,
+    blueteam: `Este exemplo implementa ${topic.toLowerCase()} como parte de uma estratégia de defesa cibernética, fortalecendo a postura de segurança.`
+  };
+
+  const category = moduleId.includes('python') ? 'python' :
+                  moduleId.includes('js') ? 'javascript' :
+                  moduleId.includes('redteam') ? 'redteam' : 'blueteam';
+
+  return explanations[category];
+}
+
+function generateTips(moduleId, topic) {
+  const tipCategories = {
+    python: [
+      'Siga a PEP 8 para estilo de código Python',
+      'Use docstrings para documentar suas funções',
+      'Prefira list comprehensions quando apropriado',
+      'Teste seu código regularmente'
+    ],
+    javascript: [
+      'Use const e let em vez de var',
+      'Implemente error handling adequado',
+      'Mantenha funções pequenas e focadas',
+      'Use ferramentas de linting como ESLint'
+    ],
+    redteam: [
+      'Sempre obtenha autorização por escrito',
+      'Documente todas as atividades realizadas',
+      'Use VPNs e proxies para proteção',
+      'Mantenha-se atualizado com novas técnicas'
+    ],
+    blueteam: [
+      'Monitore logs continuamente',
+      'Implemente defesa em profundidade',
+      'Mantenha sistemas sempre atualizados',
+      'Treine a equipe regularmente'
+    ]
+  };
+
+  const category = moduleId.includes('python') ? 'python' :
+                  moduleId.includes('js') ? 'javascript' :
+                  moduleId.includes('redteam') ? 'redteam' : 'blueteam';
+
+  return tipCategories[category];
+}
+
+function generateExercise(moduleId, topic) {
+  return {
+    description: `Pratique ${topic.toLowerCase()} implementando uma solução personalizada.`,
+    starter: `# Exercício: ${topic}
+# Implemente sua própria versão do conceito aprendido
+# 
+# Requisitos:
+# 1. Use as melhores práticas
+# 2. Adicione comentários explicativos
+# 3. Teste sua implementação
+# 4. Considere casos extremos
+
+# Seu código aqui:
+
+`
+  };
+}
