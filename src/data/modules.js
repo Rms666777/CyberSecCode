@@ -19,7 +19,11 @@ import {
   Settings,
   Network,
   Eye,
-  Bug
+  Bug,
+  Terminal,
+  Command,
+  HardDrive,
+  Workflow
 } from 'lucide-react';
 
 export const moduleData = {
@@ -317,6 +321,80 @@ export const moduleData = {
       description: 'Arquitetura segura, zero trust e defense in depth',
       lessons: 38,
       gradient: 'blueteam-gradient'
+    }
+  ],
+  bash: [
+    {
+      id: 'bash-basics',
+      title: 'Fundamentos do BASH',
+      level: 'Iniciante',
+      icon: <Terminal className="w-6 h-6" />,
+      description: 'Comandos básicos, navegação e manipulação de arquivos',
+      lessons: 20,
+      gradient: 'bash-gradient'
+    },
+    {
+      id: 'bash-scripting',
+      title: 'Scripts e Automação',
+      level: 'Iniciante',
+      icon: <Command className="w-6 h-6" />,
+      description: 'Criação de scripts, variáveis e estruturas de controle',
+      lessons: 25,
+      gradient: 'bash-gradient'
+    },
+    {
+      id: 'bash-text-processing',
+      title: 'Processamento de Texto',
+      level: 'Intermediário',
+      icon: <FileCode className="w-6 h-6" />,
+      description: 'grep, sed, awk e manipulação avançada de texto',
+      lessons: 22,
+      gradient: 'bash-gradient'
+    },
+    {
+      id: 'bash-system-admin',
+      title: 'Administração de Sistema',
+      level: 'Intermediário',
+      icon: <Settings className="w-6 h-6" />,
+      description: 'Gerenciamento de processos, serviços e sistema',
+      lessons: 28,
+      gradient: 'bash-gradient'
+    },
+    {
+      id: 'bash-networking',
+      title: 'Networking e Conectividade',
+      level: 'Avançado',
+      icon: <Network className="w-6 h-6" />,
+      description: 'Comandos de rede, SSH, rsync e transferência de dados',
+      lessons: 24,
+      gradient: 'bash-gradient'
+    },
+    {
+      id: 'bash-security',
+      title: 'Segurança e Hardening',
+      level: 'Avançado',
+      icon: <Lock className="w-6 h-6" />,
+      description: 'Permissões, criptografia, logs e auditoria de segurança',
+      lessons: 26,
+      gradient: 'bash-gradient'
+    },
+    {
+      id: 'bash-devops',
+      title: 'DevOps e CI/CD',
+      level: 'Profissional',
+      icon: <Workflow className="w-6 h-6" />,
+      description: 'Automação DevOps, pipelines e deployment scripts',
+      lessons: 30,
+      gradient: 'bash-gradient'
+    },
+    {
+      id: 'bash-advanced',
+      title: 'BASH Avançado e Performance',
+      level: 'Profissional',
+      icon: <Cpu className="w-6 h-6" />,
+      description: 'Otimização, debugging, paralelização e best practices',
+      lessons: 32,
+      gradient: 'bash-gradient'
     }
   ]
 };

@@ -237,6 +237,38 @@ print(f"Altura: {altura}m")`,
     'blueteam-architecture': {
       topics: ['Security Architecture', 'Zero Trust', 'Defense in Depth', 'Network Segmentation', 'Identity Management', 'Cloud Security', 'DevSecOps', 'Governance', 'Risk Management', 'Future Trends'],
       hours: 50
+    },
+    'bash-basics': {
+      topics: ['Introdução ao BASH', 'Comandos Básicos', 'Navegação de Diretórios', 'Manipulação de Arquivos', 'Permissões', 'Redirecionamento', 'Pipes', 'Wildcards', 'Histórico', 'Exercícios Práticos'],
+      hours: 25
+    },
+    'bash-scripting': {
+      topics: ['Primeiro Script', 'Variáveis', 'Parâmetros', 'Estruturas Condicionais', 'Loops', 'Funções', 'Arrays', 'Debugging', 'Boas Práticas', 'Projetos Scripts'],
+      hours: 30
+    },
+    'bash-text-processing': {
+      topics: ['grep Fundamentals', 'sed Editor', 'awk Programming', 'cut e sort', 'uniq e wc', 'Regular Expressions', 'Text Manipulation', 'Log Processing', 'Data Extraction', 'Advanced Processing'],
+      hours: 35
+    },
+    'bash-system-admin': {
+      topics: ['Process Management', 'Service Control', 'Cron Jobs', 'System Monitoring', 'User Management', 'Package Management', 'System Logs', 'Performance Tuning', 'Backup Scripts', 'Automation'],
+      hours: 40
+    },
+    'bash-networking': {
+      topics: ['Network Commands', 'SSH Fundamentals', 'SCP e rsync', 'Port Scanning', 'Network Troubleshooting', 'Remote Execution', 'Tunneling', 'VPN Setup', 'Network Monitoring', 'Security Tools'],
+      hours: 35
+    },
+    'bash-security': {
+      topics: ['File Permissions', 'User Security', 'Encryption Tools', 'Log Analysis', 'Security Auditing', 'Hardening Scripts', 'Intrusion Detection', 'Forensics', 'Compliance', 'Security Automation'],
+      hours: 40
+    },
+    'bash-devops': {
+      topics: ['CI/CD Pipelines', 'Docker Scripts', 'Kubernetes Automation', 'Infrastructure as Code', 'Deployment Scripts', 'Monitoring Automation', 'Git Hooks', 'Build Automation', 'Testing Scripts', 'Production Deployment'],
+      hours: 45
+    },
+    'bash-advanced': {
+      topics: ['Advanced Scripting', 'Performance Optimization', 'Parallel Processing', 'Error Handling', 'Signal Handling', 'IPC', 'Memory Management', 'Profiling', 'Best Practices', 'Expert Projects'],
+      hours: 50
     }
   };
 
