@@ -171,78 +171,152 @@ export const moduleData = {
       gradient: 'js-gradient'
     }
   ],
-  cybersecurity: [
+  redteam: [
     {
-      id: 'cyber-basics',
-      title: 'Fundamentos de Cybersegurança',
+      id: 'redteam-basics',
+      title: 'Fundamentos de Ethical Hacking',
+      level: 'Iniciante',
+      icon: <Target className="w-6 h-6" />,
+      description: 'Conceitos básicos, metodologias e ética do hacking',
+      lessons: 20,
+      gradient: 'redteam-gradient'
+    },
+    {
+      id: 'redteam-recon',
+      title: 'Reconnaissance e OSINT',
+      level: 'Iniciante',
+      icon: <Eye className="w-6 h-6" />,
+      description: 'Coleta de informações, OSINT e footprinting',
+      lessons: 22,
+      gradient: 'redteam-gradient'
+    },
+    {
+      id: 'redteam-vuln-assessment',
+      title: 'Vulnerability Assessment',
+      level: 'Intermediário',
+      icon: <Bug className="w-6 h-6" />,
+      description: 'Identificação e análise de vulnerabilidades',
+      lessons: 25,
+      gradient: 'redteam-gradient'
+    },
+    {
+      id: 'redteam-web-pentest',
+      title: 'Web Application Penetration Testing',
+      level: 'Intermediário',
+      icon: <Globe className="w-6 h-6" />,
+      description: 'OWASP Top 10, SQL injection, XSS e testes web',
+      lessons: 30,
+      gradient: 'redteam-gradient'
+    },
+    {
+      id: 'redteam-network-pentest',
+      title: 'Network Penetration Testing',
+      level: 'Avançado',
+      icon: <Network className="w-6 h-6" />,
+      description: 'Testes de rede, lateral movement e privilege escalation',
+      lessons: 28,
+      gradient: 'redteam-gradient'
+    },
+    {
+      id: 'redteam-exploitation',
+      title: 'Exploitation e Post-Exploitation',
+      level: 'Avançado',
+      icon: <Zap className="w-6 h-6" />,
+      description: 'Exploits, payloads, persistence e data exfiltration',
+      lessons: 32,
+      gradient: 'redteam-gradient'
+    },
+    {
+      id: 'redteam-apt',
+      title: 'Advanced Persistent Threats',
+      level: 'Profissional',
+      icon: <Lock className="w-6 h-6" />,
+      description: 'APTs, evasion techniques e advanced malware',
+      lessons: 35,
+      gradient: 'redteam-gradient'
+    },
+    {
+      id: 'redteam-operations',
+      title: 'Red Team Operations',
+      level: 'Profissional',
+      icon: <Shield className="w-6 h-6" />,
+      description: 'Operações completas, C2, teamwork e reporting',
+      lessons: 40,
+      gradient: 'redteam-gradient'
+    }
+  ],
+  blueteam: [
+    {
+      id: 'blueteam-basics',
+      title: 'Fundamentos de Defesa Cibernética',
       level: 'Iniciante',
       icon: <Shield className="w-6 h-6" />,
-      description: 'Conceitos básicos, tipos de ataques e defesas',
-      lessons: 15,
-      gradient: 'cyber-gradient'
-    },
-    {
-      id: 'cyber-network',
-      title: 'Segurança de Redes',
-      level: 'Iniciante',
-      icon: <Network className="w-6 h-6" />,
-      description: 'Protocolos, firewalls e monitoramento de rede',
+      description: 'Conceitos de defesa, frameworks e estratégias',
       lessons: 18,
-      gradient: 'cyber-gradient'
+      gradient: 'blueteam-gradient'
     },
     {
-      id: 'cyber-python',
-      title: 'Python para Cybersegurança',
-      level: 'Intermediário',
-      icon: <Lock className="w-6 h-6" />,
-      description: 'Scripts de segurança, análise de malware e automação',
-      lessons: 25,
-      gradient: 'cyber-gradient'
-    },
-    {
-      id: 'cyber-js',
-      title: 'JavaScript Security',
-      level: 'Intermediário',
+      id: 'blueteam-monitoring',
+      title: 'Monitoramento e Detecção',
+      level: 'Iniciante',
       icon: <Monitor className="w-6 h-6" />,
-      description: 'Segurança web, XSS, CSRF e análise de vulnerabilidades',
-      lessons: 20,
-      gradient: 'cyber-gradient'
+      description: 'SIEM, logs, alertas e detecção de anomalias',
+      lessons: 24,
+      gradient: 'blueteam-gradient'
     },
     {
-      id: 'cyber-web-security',
-      title: 'Segurança de Aplicações Web',
-      level: 'Avançado',
-      icon: <Globe className="w-6 h-6" />,
-      description: 'OWASP Top 10, testes de penetração web',
-      lessons: 30,
-      gradient: 'cyber-gradient'
+      id: 'blueteam-incident-response',
+      title: 'Incident Response',
+      level: 'Intermediário',
+      icon: <Zap className="w-6 h-6" />,
+      description: 'Resposta a incidentes, containment e recovery',
+      lessons: 26,
+      gradient: 'blueteam-gradient'
     },
     {
-      id: 'cyber-forensics',
+      id: 'blueteam-forensics',
       title: 'Forense Digital',
-      level: 'Avançado',
+      level: 'Intermediário',
       icon: <Eye className="w-6 h-6" />,
-      description: 'Análise forense, recuperação de dados e evidências',
-      lessons: 22,
-      gradient: 'cyber-gradient'
+      description: 'Análise forense, evidências e investigação',
+      lessons: 28,
+      gradient: 'blueteam-gradient'
     },
     {
-      id: 'cyber-advanced',
-      title: 'Ethical Hacking Avançado',
-      level: 'Profissional',
+      id: 'blueteam-soc',
+      title: 'Security Operations Center',
+      level: 'Avançado',
+      icon: <Server className="w-6 h-6" />,
+      description: 'Operação de SOC, workflows e automação',
+      lessons: 30,
+      gradient: 'blueteam-gradient'
+    },
+    {
+      id: 'blueteam-threat-hunting',
+      title: 'Threat Hunting',
+      level: 'Avançado',
       icon: <Target className="w-6 h-6" />,
-      description: 'Penetration testing, exploits e incident response',
-      lessons: 35,
-      gradient: 'cyber-gradient'
+      description: 'Caça a ameaças, TTPs e threat intelligence',
+      lessons: 32,
+      gradient: 'blueteam-gradient'
     },
     {
-      id: 'cyber-malware',
+      id: 'blueteam-malware-analysis',
       title: 'Análise de Malware',
       level: 'Profissional',
       icon: <Bug className="w-6 h-6" />,
       description: 'Reverse engineering, análise estática e dinâmica',
-      lessons: 28,
-      gradient: 'cyber-gradient'
+      lessons: 35,
+      gradient: 'blueteam-gradient'
+    },
+    {
+      id: 'blueteam-architecture',
+      title: 'Security Architecture',
+      level: 'Profissional',
+      icon: <Layers className="w-6 h-6" />,
+      description: 'Arquitetura segura, zero trust e defense in depth',
+      lessons: 38,
+      gradient: 'blueteam-gradient'
     }
   ]
 };
