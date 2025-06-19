@@ -110,6 +110,14 @@ const HomePage = ({ setActiveSection, userProgress }) => {
           </Button>
           <Button 
             size="lg" 
+            className="bg-gradient-to-r from-green-600 to-green-800 hover:from-green-700 hover:to-green-900 text-white px-8 py-4 text-lg"
+            onClick={() => setActiveSection('bash')}
+          >
+            <Terminal className="w-5 h-5 mr-2" />
+            Dominar BASH
+          </Button>
+          <Button 
+            size="lg" 
             className="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white px-8 py-4 text-lg"
             onClick={() => setActiveSection('redteam')}
           >

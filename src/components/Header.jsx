@@ -21,6 +21,7 @@ const Header = ({ activeSection, setActiveSection, onBackToModules, showBackButt
     { id: 'home', label: 'Início', icon: <Home className="w-4 h-4" /> },
     { id: 'python', label: 'Python', icon: <Code className="w-4 h-4" /> },
     { id: 'javascript', label: 'JavaScript', icon: <Zap className="w-4 h-4" /> },
+    { id: 'bash', label: 'BASH', icon: <Terminal className="w-4 h-4" /> },
     { id: 'redteam', label: 'Red Team', icon: <Sword className="w-4 h-4" /> },
     { id: 'blueteam', label: 'Blue Team', icon: <Eye className="w-4 h-4" /> },
     { id: 'challenges', label: 'Desafios', icon: <Target className="w-4 h-4" /> },

@@ -1,28 +1,37 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Play, Trash2, Copy, Download, Save, Folder } from 'lucide-react';
+import { Terminal, Play, RotateCcw, Copy, Download, Cpu, HardDrive, Network, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
-import PythonInterpreter from './PythonInterpreter';
-import JavaScriptInterpreter from './JavaScriptInterpreter';
+import { VirtualFileSystem } from '../VirtualFileSystem';
+import { BashInterpreter, PythonInterpreter, JavaScriptInterpreter } from '../VirtualInterpreters';
 
 const TerminalEmulator = () => {
-  const [output, setOutput] = useState([
-    { type: 'system', content: 'CodeMaster Terminal v2.0.0 - Agora com suporte completo!' },
-    { type: 'system', content: 'Digite "help" para ver os comandos disponíveis' },
-    { type: 'system', content: 'Suporte avançado para Python e JavaScript' }
-  ]);
   const [input, setInput] = useState('');
-  const [language, setLanguage] = useState('python');
+  const [output, setOutput] = useState([]);
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [savedScripts, setSavedScripts] = useState([]);
-  const [currentScript, setCurrentScript] = useState('');
+  const [vfs] = useState(() => new VirtualFileSystem());
+  const [bashInterpreter] = useState(() => new BashInterpreter(vfs));
+  const [pythonInterpreter] = useState(() => new PythonInterpreter());
+  const [jsInterpreter] = useState(() => new JavaScriptInterpreter());
+  const [currentMode, setCurrentMode] = useState('bash'); // bash, python, javascript
   const inputRef = useRef(null);
   const outputRef = useRef(null);
 
-  const pythonInterpreter = new PythonInterpreter();
-  const jsInterpreter = new JavaScriptInterpreter();
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+    // Welcome message
+    setOutput([
+      { type: 'system', content: '🐧 Welcome to CodeMaster Terminal - Alpine Linux v3.18' },
+      { type: 'system', content: '📦 Mini rootfs with Python 3.11.6, Node.js 18.18.0, and BASH 5.1.16' },
+      { type: 'system', content: '🔒 Cybersecurity tools: nmap, netcat, curl, wget, ssh, hashcat, john, sqlmap, nikto' },
+      { type: 'system', content: '💡 Type "help" for available commands or "ls" to explore the filesystem' },
+      { type: 'system', content: '🚀 Switch interpreters: "python3" for Python, "node" for JavaScript' },
+      { type: 'system', content: '' }
+    ]);
+  }, []);
 
   useEffect(() => {
     if (outputRef.current) {
@@ -30,9 +39,30 @@ const TerminalEmulator = () => {
     }
   }, [output]);
 
+  const getPrompt = () => {
+    switch (currentMode) {
+      case 'python':
+        return '>>> ';
+      case 'javascript':
+        return '> ';
+      default:
+        return `user@alpine:${vfs.currentPath.replace('/home/user', '~')}$ `;
+    }
+  };
+
+  const getModeColor = () => {
+    switch (currentMode) {
+      case 'python':
+        return 'text-blue-400';
+      case 'javascript':
+        return 'text-yellow-400';
+      default:
+        return 'text-green-400';
+    }
+  };
+
   const executeCommand = (command) => {
     const trimmedCommand = command.trim();
-    
     if (!trimmedCommand) return;
 
     // Add to history
@@ -42,176 +72,126 @@ const TerminalEmulator = () => {
     // Add command to output
     setOutput(prev => [...prev, { 
       type: 'command', 
-      content: `${language}> ${trimmedCommand}`,
-      language 
+      content: `${getPrompt()}${trimmedCommand}`,
+      mode: currentMode
     }]);
 
-    // Handle special commands
-    if (trimmedCommand === 'help') {
-      setOutput(prev => [...prev, { 
-        type: 'help', 
-        content: `Comandos disponíveis:
-help - Mostra esta ajuda
-clear - Limpa o terminal
-python - Muda para modo Python
-javascript ou js - Muda para modo JavaScript
-save <nome> - Salva o script atual
-load <nome> - Carrega um script salvo
-list - Lista scripts salvos
-exit - Sai do terminal
+    let result = '';
 
-Recursos Python:
-• Variáveis e operações matemáticas
-• Estruturas de controle (if, for, while)
-• Funções e classes
-• Listas, dicionários e tuplas
-• Módulos básicos (math, random, datetime)
-
-Recursos JavaScript:
-• Variáveis (let, const, var)
-• Funções e arrow functions
-• Objetos e arrays
-• Promises e async/await
-• DOM manipulation (simulado)
-• Módulos ES6
-
-Exemplos:
-Python: print("Hello"); x = [1,2,3]; for i in x: print(i)
-JavaScript: console.log("Hello"); let arr = [1,2,3]; arr.forEach(i => console.log(i));`
-      }]);
-      return;
-    }
-
-    if (trimmedCommand === 'clear') {
-      setOutput([
-        { type: 'system', content: 'Terminal limpo' }
-      ]);
-      return;
-    }
-
-    if (trimmedCommand === 'python') {
-      setLanguage('python');
-      setOutput(prev => [...prev, { 
-        type: 'system', 
-        content: 'Modo Python ativado - Interpretador completo carregado!' 
-      }]);
-      return;
-    }
-
-    if (trimmedCommand === 'javascript' || trimmedCommand === 'js') {
-      setLanguage('javascript');
-      setOutput(prev => [...prev, { 
-        type: 'system', 
-        content: 'Modo JavaScript ativado - Engine V8 simulado carregado!' 
-      }]);
-      return;
-    }
-
-    if (trimmedCommand.startsWith('save ')) {
-      const scriptName = trimmedCommand.substring(5);
-      if (scriptName && currentScript) {
-        setSavedScripts(prev => [...prev.filter(s => s.name !== scriptName), { name: scriptName, code: currentScript, language }]);
-        setOutput(prev => [...prev, { 
-          type: 'system', 
-          content: `Script "${scriptName}" salvo com sucesso!` 
-        }]);
+    // Handle mode switching and command execution
+    if (currentMode === 'bash') {
+      if (trimmedCommand === 'python3' || trimmedCommand === 'python') {
+        setCurrentMode('python');
+        result = 'Python 3.11.6 (main, Oct  8 2023, 05:06:43) [GCC 13.2.0] on linux\nType "help", "copyright", "credits" or "license" for more information.\nType "exit()" to return to bash.';
+      } else if (trimmedCommand === 'node') {
+        setCurrentMode('javascript');
+        result = 'Welcome to Node.js v18.18.0.\nType ".help" for more information.\nType ".exit" to return to bash.';
+      } else if (trimmedCommand === 'help') {
+        result = `🔧 Available Commands:
+        
+📁 File System:
+  ls [path]     - List directory contents
+  cd [path]     - Change directory
+  pwd           - Print working directory
+  cat [file]    - Display file contents
+  mkdir [dir]   - Create directory
+  touch [file]  - Create empty file
+  find [path]   - Find files and directories
+  
+🔍 Text Processing:
+  grep [pattern] [file] - Search text patterns
+  echo [text]   - Display text
+  
+👤 System Info:
+  whoami        - Current user
+  uname [-a]    - System information
+  ps            - Running processes
+  history       - Command history
+  
+🐍 Interpreters:
+  python3       - Start Python interpreter
+  node          - Start JavaScript interpreter
+  bash [script] - Execute bash script
+  
+🔒 Security Tools:
+  nmap [args]   - Network scanner
+  netcat [args] - Network utility
+  curl [url]    - HTTP client
+  wget [url]    - Download files
+  ssh [host]    - Secure shell
+  hashcat       - Password cracker
+  john          - John the Ripper
+  sqlmap        - SQL injection tool
+  nikto         - Web scanner
+  
+🛠️ Utilities:
+  clear         - Clear screen
+  which [cmd]   - Locate command
+  
+Type "ls" to explore the filesystem or try "cd scripts" to see example files!`;
       } else {
-        setOutput(prev => [...prev, { 
-          type: 'error', 
-          content: 'Uso: save <nome> (execute algum código primeiro)' 
-        }]);
-      }
-      return;
-    }
-
-    if (trimmedCommand.startsWith('load ')) {
-      const scriptName = trimmedCommand.substring(5);
-      const script = savedScripts.find(s => s.name === scriptName);
-      if (script) {
-        setCurrentScript(script.code);
-        setLanguage(script.language);
-        setOutput(prev => [...prev, { 
-          type: 'system', 
-          content: `Script "${scriptName}" carregado! Linguagem: ${script.language}` 
-        }]);
-        executeCode(script.code);
-      } else {
-        setOutput(prev => [...prev, { 
-          type: 'error', 
-          content: `Script "${scriptName}" não encontrado` 
-        }]);
-      }
-      return;
-    }
-
-    if (trimmedCommand === 'list') {
-      if (savedScripts.length === 0) {
-        setOutput(prev => [...prev, { 
-          type: 'system', 
-          content: 'Nenhum script salvo' 
-        }]);
-      } else {
-        const scriptList = savedScripts.map(s => `${s.name} (${s.language})`).join('\n');
-        setOutput(prev => [...prev, { 
-          type: 'system', 
-          content: `Scripts salvos:\n${scriptList}` 
-        }]);
-      }
-      return;
-    }
-
-    if (trimmedCommand === 'exit') {
-      setOutput(prev => [...prev, { 
-        type: 'system', 
-        content: 'Até logo! Obrigado por usar o CodeMaster Terminal! 👋' 
-      }]);
-      return;
-    }
-
-    // Execute code
-    setCurrentScript(prev => prev + '\n' + trimmedCommand);
-    executeCode(trimmedCommand);
-  };
-
-  const executeCode = (code) => {
-    try {
-      if (language === 'python') {
-        const result = pythonInterpreter.execute(code);
-        if (result.output.length > 0) {
-          result.output.forEach(line => {
-            setOutput(prev => [...prev, { 
-              type: 'output', 
-              content: line 
-            }]);
-          });
-        }
-        if (result.error) {
-          setOutput(prev => [...prev, { 
-            type: 'error', 
-            content: result.error 
-          }]);
-        }
-      } else {
-        const result = jsInterpreter.execute(code);
-        if (result.output.length > 0) {
-          result.output.forEach(line => {
-            setOutput(prev => [...prev, { 
-              type: 'output', 
-              content: line 
-            }]);
-          });
-        }
-        if (result.error) {
-          setOutput(prev => [...prev, { 
-            type: 'error', 
-            content: result.error 
-          }]);
+        result = bashInterpreter.execute(trimmedCommand);
+        if (result === 'CLEAR_SCREEN') {
+          setOutput([]);
+          return;
         }
       }
-    } catch (error) {
+    } else if (currentMode === 'python') {
+      if (trimmedCommand === 'exit()' || trimmedCommand === 'quit()') {
+        setCurrentMode('bash');
+        result = 'Returning to bash shell...';
+      } else if (trimmedCommand === 'help') {
+        result = `🐍 Python Interactive Shell:
+        
+Available features:
+  print(value)     - Print output
+  variables        - Basic variable assignment (x = 5)
+  math operations  - +, -, *, / 
+  strings          - "text" or 'text'
+  f-strings        - f"Hello {variable}"
+  imports          - import module
+  functions        - def function_name():
+  
+Examples:
+  >>> name = "CodeMaster"
+  >>> print(f"Hello {name}!")
+  >>> x = 10 + 5
+  >>> print(x)
+  
+Type exit() to return to bash shell.`;
+      } else {
+        result = pythonInterpreter.execute(trimmedCommand);
+      }
+    } else if (currentMode === 'javascript') {
+      if (trimmedCommand === '.exit') {
+        setCurrentMode('bash');
+        result = 'Returning to bash shell...';
+      } else if (trimmedCommand === '.help') {
+        result = `⚡ Node.js Interactive Shell:
+        
+Available features:
+  console.log(value) - Print output
+  variables          - let, const, var
+  functions          - function name() {}
+  template literals  - \`Hello \${variable}\`
+  
+Examples:
+  > let name = "CodeMaster"
+  > console.log(\`Hello \${name}!\`)
+  > const x = 10 + 5
+  > console.log(x)
+  
+Type .exit to return to bash shell.`;
+      } else {
+        result = jsInterpreter.execute(trimmedCommand);
+      }
+    }
+
+    if (result) {
       setOutput(prev => [...prev, { 
-        type: 'error', 
-        content: `Erro: ${error.message}` 
+        type: 'output', 
+        content: result,
+        mode: currentMode
       }]);
     }
   };
@@ -241,256 +221,226 @@ JavaScript: console.log("Hello"); let arr = [1,2,3]; arr.forEach(i => console.lo
       }
     } else if (e.key === 'Tab') {
       e.preventDefault();
-      // Auto-complete functionality could be added here
+      // Simple tab completion for common commands
+      const commands = ['ls', 'cd', 'cat', 'pwd', 'help', 'clear', 'python3', 'node', 'nmap', 'curl'];
+      const matches = commands.filter(cmd => cmd.startsWith(input));
+      if (matches.length === 1) {
+        setInput(matches[0]);
+      }
     }
   };
 
   const clearTerminal = () => {
-    setOutput([
-      { type: 'system', content: 'Terminal limpo' }
-    ]);
+    setOutput([]);
   };
 
   const copyOutput = () => {
     const text = output.map(line => line.content).join('\n');
     navigator.clipboard.writeText(text);
-    toast({
-      title: "Copiado!",
-      description: "Saída do terminal copiada para a área de transferência",
-    });
   };
 
-  const downloadOutput = () => {
+  const downloadLog = () => {
     const text = output.map(line => line.content).join('\n');
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `terminal-output-${new Date().toISOString().slice(0, 10)}.txt`;
+    a.download = 'terminal-log.txt';
     a.click();
     URL.revokeObjectURL(url);
-  };
-
-  const saveCurrentSession = () => {
-    const sessionData = {
-      output,
-      language,
-      currentScript,
-      timestamp: new Date().toISOString()
-    };
-    const blob = new Blob([JSON.stringify(sessionData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `codemaster-session-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast({
-      title: "Sessão Salva!",
-      description: "Sua sessão foi salva com sucesso",
-    });
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="space-y-6"
-    >
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-          Terminal Interativo Avançado
-        </h1>
-        <p className="text-xl text-muted-foreground">
-          Execute códigos Python e JavaScript com interpretador completo
-        </p>
-      </div>
-
-      <div className="terminal-container rounded-xl overflow-hidden">
-        {/* Terminal Header */}
-        <div className="terminal-header px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="flex space-x-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            </div>
+    <div className="min-h-screen bg-gray-900 text-green-400 font-mono">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="container mx-auto px-4 py-8"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <Terminal className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">
-                CodeMaster Terminal - Modo: {language === 'python' ? 'Python 3.9+' : 'JavaScript ES2022'}
-              </span>
+              <Terminal className="w-8 h-8 text-green-400" />
+              <h1 className="text-2xl font-bold">Alpine Linux Terminal</h1>
+            </div>
+            <div className="flex items-center space-x-2 text-sm">
+              <div className="flex items-center space-x-1">
+                <Cpu className="w-4 h-4" />
+                <span>x86_64</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <HardDrive className="w-4 h-4" />
+                <span>Mini rootfs</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <Shield className="w-4 h-4" />
+                <span>Security Tools</span>
+              </div>
             </div>
           </div>
           
           <div className="flex items-center space-x-2">
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => setLanguage(language === 'python' ? 'javascript' : 'python')}
-              className="text-xs"
-              title="Alternar linguagem"
-            >
-              {language === 'python' ? 'JS' : 'PY'}
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={copyOutput}
-              className="text-xs"
-              title="Copiar saída"
-            >
-              <Copy className="w-3 h-3" />
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={downloadOutput}
-              className="text-xs"
-              title="Download saída"
-            >
-              <Download className="w-3 h-3" />
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={saveCurrentSession}
-              className="text-xs"
-              title="Salvar sessão"
-            >
-              <Save className="w-3 h-3" />
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={clearTerminal}
-              className="text-xs"
-              title="Limpar terminal"
-            >
-              <Trash2 className="w-3 h-3" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Terminal Output */}
-        <div 
-          ref={outputRef}
-          className="terminal-output p-4 scrollbar-thin"
-        >
-          {output.map((line, index) => (
-            <div key={index} className={`mb-1 ${
-              line.type === 'command' ? 'text-green-400' :
-              line.type === 'output' ? 'text-blue-300' :
-              line.type === 'error' ? 'text-red-400' :
-              line.type === 'help' ? 'text-yellow-300 whitespace-pre-line' :
-              'text-gray-400'
+            <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+              currentMode === 'bash' ? 'bg-green-900 text-green-300' :
+              currentMode === 'python' ? 'bg-blue-900 text-blue-300' :
+              'bg-yellow-900 text-yellow-300'
             }`}>
-              {line.content}
+              {currentMode.toUpperCase()}
             </div>
-          ))}
-          
-          {/* Input Line */}
-          <div className="flex items-center space-x-2 mt-2">
-            <span className="text-green-400">{language}{'>'}</span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="terminal-input"
-              placeholder="Digite seu código aqui... (Tab para autocompletar)"
-              autoFocus
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Enhanced Examples */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="code-block">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2 flex items-center justify-between">
-            <h3 className="text-white font-semibold">Exemplos Python Avançados</h3>
             <Button
+              variant="outline"
               size="sm"
-              variant="ghost"
-              onClick={() => {
-                setLanguage('python');
-                executeCommand('def fibonacci(n): return n if n <= 1 else fibonacci(n-1) + fibonacci(n-2)');
-                setTimeout(() => executeCommand('print([fibonacci(i) for i in range(10)])'), 100);
-              }}
-              className="text-white hover:bg-white/10 text-xs"
+              onClick={clearTerminal}
+              className="border-gray-600 text-gray-300 hover:bg-gray-800"
             >
-              <Play className="w-3 h-3 mr-1" />
-              Executar
+              <RotateCcw className="w-4 h-4 mr-2" />
+              Clear
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={copyOutput}
+              className="border-gray-600 text-gray-300 hover:bg-gray-800"
+            >
+              <Copy className="w-4 h-4 mr-2" />
+              Copy
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={downloadLog}
+              className="border-gray-600 text-gray-300 hover:bg-gray-800"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download
             </Button>
           </div>
-          <div className="code-content space-y-2">
-            <div className="text-gray-400"># Fibonacci recursivo</div>
-            <div>def fibonacci(n):</div>
-            <div>    return n if n &lt;= 1 else fibonacci(n-1) + fibonacci(n-2)</div>
-            <div>print([fibonacci(i) for i in range(10)])</div>
-            <div className="text-gray-400"># Classes e herança</div>
-            <div>class Animal:</div>
-            <div>    def __init__(self, nome): self.nome = nome</div>
-            <div>    def falar(self): pass</div>
-          </div>
         </div>
 
-        <div className="code-block">
-          <div className="bg-gradient-to-r from-yellow-600 to-yellow-700 px-4 py-2 flex items-center justify-between">
-            <h3 className="text-white font-semibold">Exemplos JavaScript Avançados</h3>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => {
-                setLanguage('javascript');
-                executeCommand('const fetchData = async () => { return new Promise(resolve => setTimeout(() => resolve("Dados carregados!"), 1000)); };');
-                setTimeout(() => executeCommand('fetchData().then(console.log);'), 100);
-              }}
-              className="text-white hover:bg-white/10 text-xs"
-            >
-              <Play className="w-3 h-3 mr-1" />
-              Executar
-            </Button>
+        {/* Terminal */}
+        <motion.div
+          initial={{ scale: 0.95 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="bg-black rounded-lg border border-gray-700 shadow-2xl overflow-hidden"
+        >
+          {/* Terminal Header */}
+          <div className="bg-gray-800 px-4 py-2 flex items-center justify-between border-b border-gray-700">
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            </div>
+            <div className="text-sm text-gray-400">
+              user@alpine - {vfs.currentPath}
+            </div>
+            <div className="text-sm text-gray-400">
+              {new Date().toLocaleTimeString()}
+            </div>
           </div>
-          <div className="code-content space-y-2">
-            <div className="text-gray-400">// Async/await</div>
-            <div>const fetchData = async () =&gt; &#123;</div>
-            <div>  return new Promise(resolve =&gt;</div>
-            <div>    setTimeout(() =&gt; resolve("Dados!"), 1000));</div>
-            <div>&#125;;</div>
-            <div className="text-gray-400">// Destructuring</div>
-            <div>const &#123;nome, idade&#125; = &#123;nome: "João", idade: 25&#125;;</div>
-          </div>
-        </div>
-      </div>
 
-      {/* Saved Scripts */}
-      {savedScripts.length > 0 && (
-        <div className="glass-effect rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center">
-            <Folder className="w-5 h-5 mr-2" />
-            Scripts Salvos
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {savedScripts.map((script, index) => (
-              <Button
-                key={index}
-                variant="outline"
-                size="sm"
-                onClick={() => executeCommand(`load ${script.name}`)}
-                className="justify-start"
-              >
-                <Play className="w-3 h-3 mr-2" />
-                {script.name} ({script.language})
-              </Button>
+          {/* Terminal Content */}
+          <div className="p-4 h-96 overflow-y-auto scrollbar-thin" ref={outputRef}>
+            {output.map((line, index) => (
+              <div key={index} className="mb-1">
+                {line.type === 'system' && (
+                  <div className="text-cyan-400">{line.content}</div>
+                )}
+                {line.type === 'command' && (
+                  <div className={`${getModeColor()} font-semibold`}>{line.content}</div>
+                )}
+                {line.type === 'output' && (
+                  <div className="text-gray-300 whitespace-pre-wrap">{line.content}</div>
+                )}
+              </div>
             ))}
+            
+            {/* Input Line */}
+            <div className="flex items-center">
+              <span className={`${getModeColor()} mr-2`}>{getPrompt()}</span>
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="flex-1 bg-transparent text-white outline-none"
+                placeholder="Type a command..."
+                autoFocus
+              />
+            </div>
           </div>
-        </div>
-      )}
-    </motion.div>
+        </motion.div>
+
+        {/* Quick Commands */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4"
+        >
+          <Button
+            variant="outline"
+            onClick={() => executeCommand('ls')}
+            className="border-gray-600 text-gray-300 hover:bg-gray-800"
+          >
+            📁 List Files
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => executeCommand('cd scripts')}
+            className="border-gray-600 text-gray-300 hover:bg-gray-800"
+          >
+            📝 View Scripts
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => executeCommand('python3')}
+            className="border-gray-600 text-gray-300 hover:bg-gray-800"
+          >
+            🐍 Python
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => executeCommand('node')}
+            className="border-gray-600 text-gray-300 hover:bg-gray-800"
+          >
+            ⚡ Node.js
+          </Button>
+        </motion.div>
+
+        {/* Info Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4"
+        >
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <h3 className="text-lg font-semibold text-green-400 mb-2">🐧 System Info</h3>
+            <p className="text-gray-300 text-sm">Alpine Linux v3.18</p>
+            <p className="text-gray-300 text-sm">Kernel: 5.15.0</p>
+            <p className="text-gray-300 text-sm">Architecture: x86_64</p>
+          </div>
+          
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <h3 className="text-lg font-semibold text-blue-400 mb-2">🛠️ Interpreters</h3>
+            <p className="text-gray-300 text-sm">Python 3.11.6</p>
+            <p className="text-gray-300 text-sm">Node.js 18.18.0</p>
+            <p className="text-gray-300 text-sm">GNU Bash 5.1.16</p>
+          </div>
+          
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <h3 className="text-lg font-semibold text-red-400 mb-2">🔒 Security Tools</h3>
+            <p className="text-gray-300 text-sm">nmap, netcat, curl</p>
+            <p className="text-gray-300 text-sm">hashcat, john, sqlmap</p>
+            <p className="text-gray-300 text-sm">nikto, dirb, gobuster</p>
+          </div>
+        </motion.div>
+      </motion.div>
+    </div>
   );
 };
 

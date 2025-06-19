@@ -120,7 +120,7 @@ function App() {
             </motion.div>
           )}
 
-          {(activeSection === 'python' || activeSection === 'javascript' || activeSection === 'redteam' || activeSection === 'blueteam') && (
+          {(activeSection === 'python' || activeSection === 'javascript' || activeSection === 'bash' || activeSection === 'redteam' || activeSection === 'blueteam') && (
             <motion.div
               key={activeSection}
               initial={{ opacity: 0 }}
